@@ -10,7 +10,7 @@ export type CharacterStructure = {
   skill?: number; // For fighter
   bossCounselor?: CharacterStructure; // For counselor
   bossSquire?: CharacterStructure; // For squire
-  servilism: number; // For squire
+  servilism?: number; // For squire
 };
 
 type Category = "king" | "fighter" | "counselor" | "squire";
