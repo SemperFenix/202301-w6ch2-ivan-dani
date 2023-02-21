@@ -1,6 +1,8 @@
 import { CharacterStructure } from "../models/character";
 import { CharactersApiRepo } from "./private.repo";
 
+const repo = new CharactersApiRepo();
+
 describe("Given the service Private repo class", () => {
   describe("When create a new object of the class and call load", () => {
     test("Then it should be able to call", async () => {
@@ -12,7 +14,6 @@ describe("Given the service Private repo class", () => {
             { test: "test" },
           ] as unknown as CharacterStructure),
       });
-      const repo = new CharactersApiRepo();
       expect(repo).toBeInstanceOf(CharactersApiRepo);
       const load = await repo.loadCharacters();
       expect(load).toEqual([{ test: "test" }]);
@@ -26,13 +27,18 @@ describe("Given the service Private repo class", () => {
   describe("When fetch response.ok is false", () => {
     test("Then it should be throw an error", async () => {
       global.fetch = jest.fn().mockResolvedValue({
-        resp: { status: "404", statusText: "Error 404" },
         ok: false,
-        json: jest.fn().mockResolvedValue("Error HTTP:"),
       });
-      const repo = new CharactersApiRepo();
-      const load = await repo.loadCharacters();
-      expect(load).toBe("Error HTTP:");
+      const errorCatch = (await repo.loadCharacters().catch(Error)) as Error;
+
+      expect(errorCatch).toBeInstanceOf(Error);
+      expect(errorCatch.message).toMatch(/Error HTTP/i);
+
+      const errorCatch2 = await repo
+        .updateCharacter({ name: "Peter" })
+        .catch(Error);
+      expect(errorCatch2).toBeInstanceOf(Error);
+      expect(errorCatch2.message).toMatch(/Error HTTP/i);
     });
   });
 });

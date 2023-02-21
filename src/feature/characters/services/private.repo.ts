@@ -19,7 +19,7 @@ export class CharactersApiRepo {
   async loadCharacters(): Promise<CharacterStructure[]> {
     const resp = await fetch(this.url);
     if (!resp.ok)
-      throw new Error("Error HTTP:" + resp.status + "." + resp.statusText);
+      throw new Error("Error HTTP" + resp.status + ". " + resp.statusText);
     const data = (await resp.json()) as CharacterStructure[];
     return data;
   }
@@ -27,7 +27,7 @@ export class CharactersApiRepo {
   async updateCharacter(
     character: Partial<CharacterStructure>
   ): Promise<CharacterStructure> {
-    const url = this.url + "/" + character.name;
+    const url = this.url + "/" + character.id;
     const resp = await fetch(url, {
       method: "PATCH",
       body: JSON.stringify(character),
@@ -35,7 +35,8 @@ export class CharactersApiRepo {
         "Content-type": "application/json",
       },
     });
-    if (!resp.ok) throw new Error("Error HTTP:");
+    if (!resp.ok)
+      throw new Error("Error HTTP:" + resp.status + ". " + resp.statusText);
     const data = (await resp.json()) as CharacterStructure;
     return data;
   }
