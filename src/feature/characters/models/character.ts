@@ -1,4 +1,5 @@
 export type CharacterStructure = {
+  id: string;
   name: string;
   family: string;
   age: number;
