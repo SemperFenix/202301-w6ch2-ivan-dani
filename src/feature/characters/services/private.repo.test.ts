@@ -29,6 +29,10 @@ describe("Given the service Private repo class", () => {
       global.fetch = jest.fn().mockResolvedValue({
         ok: false,
       });
+
+      // No he conseguido que pase el test con .toThrow()
+      // expect(async () => await repo.loadCharacters()).toThrow();
+      // expect(async () => await repo.updateCharacter({})).toThrow();
       const errorCatch = (await repo.loadCharacters().catch(Error)) as Error;
 
       expect(errorCatch).toBeInstanceOf(Error);
