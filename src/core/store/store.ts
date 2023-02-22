@@ -5,6 +5,7 @@ export const store = configureStore({
   reducer: {
     characters: charactersReducer,
   },
+  preloadedState: {},
 });
 
 export type AppDispatch = typeof store.dispatch;
